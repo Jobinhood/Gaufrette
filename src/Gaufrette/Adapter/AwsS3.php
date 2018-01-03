@@ -271,7 +271,13 @@ class AwsS3 implements Adapter,
             'MaxKeys' => 1,
         ]);
 
-        return count($result['Contents']) > 0;
+        if (isset($result['Contents'])) {
+            if (is_array($result['Contents']) || $result['Contents'] instanceof \Countable) {
+                return count($result['Contents']) > 0;
+            }
+        }
+        return false;
+
     }
 
     /**
